@@ -1,0 +1,13 @@
+{
+  "name": "vremotebrowser-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "install:client": "cd client && yarn install ",
+    "install:server": "cd server && yarn install",
+    "install": "yarn install:client && yarn install:server",
+    "start:client": "cd client && yarn start",
+    "start:server": "cd server && yarn start"
+  }
+}
