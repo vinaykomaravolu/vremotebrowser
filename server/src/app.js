@@ -20,6 +20,26 @@ io.on('connection', (socket) => {
         await browser.setViewport(viewport.height, viewport.width);
     });
 
+    socket.on('browser-input-mouse-position', async (mousePosition) => {
+        await browser.setMousePosition(mousePosition.x, mousePosition.y);
+    });
+
+    socket.on('browser-input-mouse-click', async (mousePosition) => {
+        await browser.mouseClick(mousePosition.x, mousePosition.y);
+    });
+
+    socket.on('browser-goback', async () => {
+        await browser.goBack();
+    });
+
+    socket.on('browser-goforward', async () => {
+        await browser.goForward();
+    });
+
+    socket.on('browser-reload', async () => {
+        await browser.reload();
+    });
+
     socket.on('disconnect', () => {
         clearInterval(sendScreenshotData);
     });

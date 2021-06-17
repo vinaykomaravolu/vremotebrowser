@@ -9,14 +9,14 @@ import './App.global.css';
 export default function App() {
   const [socket, setSocket] = useState(socketIOClient());
   useEffect(() => {
-    setSocket(socketIOClient("http://127.0.0.1:3001", { transports: ["websocket"] }))
+    setSocket(socketIOClient("http://localhost:3001/", { transports: ["websocket"] }))
   }, []);
 
   return (
     <div className="w-screen h-screen" id="app-root">
       <div className="h-full w-full flex flex-col">
         <WindowNav />
-        <BrowserMenu />
+        <BrowserMenu socket={socket} />
         <RemoteBrowser socket={socket} />
       </div>
     </div>

@@ -4,7 +4,11 @@ class Browser {
     constructor(height, width, url) {
         this.mouseX = 0;
         this.mouseY = 0;
-        puppeteer.launch().then((browser) => {
+        this.init(height, width, url);
+    }
+
+    async init(height, width, url) {
+        await puppeteer.launch().then((browser) => {
             this.browser = browser;
             browser.newPage().then((page) => {
                 this.page = page;
@@ -24,7 +28,7 @@ class Browser {
 
     // Set height and width of headless browser
     async setViewport(height, width) {
-        return await this.page.setViewport({
+        return this.page.setViewport({
             width: width,
             height: height,
         });
@@ -78,6 +82,20 @@ class Browser {
     async mouseClick(x, y) {
         await this.setMousePosition(x, y);
         return this.page.mouse.click(this.mouseX, this.mouseY);
+    }
+
+    // Go to previous page
+    async goBack() {
+        this.page.goBack();
+    }
+
+    // Go to next page
+    async goForward() {
+        this.page.goForward();
+    }
+
+    async reload() {
+        this.page.reload();
     }
 
 };
