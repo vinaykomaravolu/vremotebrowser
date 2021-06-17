@@ -17,7 +17,7 @@ export default function App() {
       <div className="h-full w-full flex flex-col">
         <WindowNav />
         <BrowserMenu />
-        <RemoteBrowser/>
+        <RemoteBrowser socket={socket} />
       </div>
     </div>
   );
