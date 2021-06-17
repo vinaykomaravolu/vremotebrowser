@@ -40,7 +40,7 @@ class Browser {
     }
 
     // Set url of headless browser
-    async setUrl(url) {
+    async goTo(url) {
         return this.page.goto(url).then((data) => {
             return data.status();
         }).catch((err) => {
@@ -94,6 +94,7 @@ class Browser {
         this.page.goForward();
     }
 
+    // Reload page
     async reload() {
         this.page.reload();
     }

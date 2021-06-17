@@ -11,7 +11,6 @@ function RemoteBrowser({ socket }: { socket: any }) {
     const y = e.clientY - rect.top;
     return { x: x, y: y};
   }
-
   function handleMousePosition(e: any){
     mousePosition = getRelativeMousePosition(e);
     socket.emit('browser-input-mouse-position', mousePosition);
@@ -21,7 +20,6 @@ function RemoteBrowser({ socket }: { socket: any }) {
     mousePosition = getRelativeMousePosition(e);
     socket.emit('browser-input-mouse-click', mousePosition);
   }
-
   useLayoutEffect(() => {
     function updateSize() {
       let viewport: any = document.getElementById("viewport") ;

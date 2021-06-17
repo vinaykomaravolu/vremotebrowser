@@ -40,6 +40,14 @@ io.on('connection', (socket) => {
         await browser.reload();
     });
 
+    socket.on('browser-goto', async (url) => {
+        await browser.goTo(url);
+    });
+
+    socket.on('browser-geturl', async () => {
+        await browser.getUrl();
+    });
+
     socket.on('disconnect', () => {
         clearInterval(sendScreenshotData);
     });
