@@ -8,7 +8,7 @@ class Browser {
     }
 
     async init(height, width, url) {
-        await puppeteer.launch().then((browser) => {
+        await puppeteer.launch({ ignoreDefaultArgs: ["--hide-scrollbars"] }).then((browser) => {
             this.browser = browser;
             browser.newPage().then((page) => {
                 this.page = page;
@@ -79,24 +79,45 @@ class Browser {
         return { x: this.mouseX, y: this.mouseY };
     }
 
+    // Mouse click within headless browser
     async mouseClick(x, y) {
         await this.setMousePosition(x, y);
         return this.page.mouse.click(this.mouseX, this.mouseY);
     }
 
+    // Mouse scroll wheel in headless browser
+    async mouseWheel(delta) {
+        return await this.page.wheel({ deltaY: delta });
+    }
+
     // Go to previous page
     async goBack() {
-        this.page.goBack();
+        return this.page.goBack();
     }
 
     // Go to next page
     async goForward() {
-        this.page.goForward();
+        return this.page.goForward();
     }
 
     // Reload page
     async reload() {
-        this.page.reload();
+        return this.page.reload();
+    }
+
+    // Keyboard key press
+    async keyboardPress(key) {
+        return this.page.keyboard.press(key);
+    }
+
+    // Keyboard key up
+    async keyboardUp(key) {
+        return this.page.keyboard.up(key);
+    }
+
+    // Keyboard key down
+    async keyboardDown(key) {
+        return this.page.keyboard.down(key);
     }
 
 };

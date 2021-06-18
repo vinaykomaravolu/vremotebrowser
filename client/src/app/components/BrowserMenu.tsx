@@ -60,7 +60,6 @@ function BrowserMenu({ socket }: { socket: any }) {
           onChange={handleSearchChange}
 
           value={search}
-          defaultValue=""
         />
         </form>
 

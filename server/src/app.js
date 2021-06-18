@@ -17,6 +17,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on('browser-viewport', async (viewport) => {
+
         await browser.setViewport(viewport.height, viewport.width);
     });
 
@@ -48,7 +49,20 @@ io.on('connection', (socket) => {
         await browser.getUrl();
     });
 
+    socket.on('browser-keyboard-press', async (key) => {
+        await browser.keyboardPress(key);
+    });
+
+    socket.on('browser-keyboard-up', async (key) => {
+        await browser.keyboardUp(key);
+    });
+
+    socket.on('browser-keyboard-down', async (key) => {
+        await browser.keyboardDown(key);
+    });
+
     socket.on('disconnect', () => {
+        console.log('user disconnected')
         clearInterval(sendScreenshotData);
     });
 
