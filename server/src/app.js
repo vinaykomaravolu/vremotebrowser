@@ -21,12 +21,29 @@ io.on('connection', (socket) => {
         await browser.setViewport(viewport.height, viewport.width);
     });
 
-    socket.on('browser-input-mouse-position', async (mousePosition) => {
+    socket.on('browser-mouse-position', async (mousePosition) => {
         await browser.setMousePosition(mousePosition.x, mousePosition.y);
     });
 
-    socket.on('browser-input-mouse-click', async (mousePosition) => {
+    socket.on('browser-mouse-click', async (mousePosition) => {
         await browser.mouseClick(mousePosition.x, mousePosition.y);
+    });
+
+    socket.on('browser-mouse-down', async (mousePosition) => {
+        await browser.mouseDown(mousePosition.x, mousePosition.y);
+    });
+
+    socket.on('browser-mouse-up', async (mousePosition) => {
+        await browser.mouseUp(mousePosition.x, mousePosition.y);
+    });
+
+    socket.on('browser-mouse-drag', async (from, to) => {
+        console.log(from, to);
+        await browser.mouseDrag(from, to);
+    });
+
+    socket.on('browser-mouse-wheel', async (deltaY) => {
+        await browser.mouseWheel(deltaY);
     });
 
     socket.on('browser-goback', async () => {
@@ -62,11 +79,11 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        console.log('user disconnected')
+        console.log(`user ${socket.id} disconnected`)
         clearInterval(sendScreenshotData);
     });
 
-    console.log('a user connected');
+    console.log(`user ${socket.id} connected`);
 });
 
 server.listen(port, () => {

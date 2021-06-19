@@ -2,6 +2,7 @@ import React,{useState, useLayoutEffect, useEffect} from 'react';
 
 function RemoteBrowser({ socket }: { socket: any }) {
   const [imageData, setImageData] = useState<string>("");
+  let isMouseDrag = false;
   let mousePosition = { x: 0, y: 0 };
 
   function getRelativeMousePosition(e: any ){
@@ -14,33 +15,44 @@ function RemoteBrowser({ socket }: { socket: any }) {
 
   function handleMousePosition(e: any){
     mousePosition = getRelativeMousePosition(e);
-    socket.emit('browser-input-mouse-position', mousePosition);
+    socket.emit('browser-mouse-position', mousePosition);
   }
 
-  function handleMouseClick(e: any){
+  function handleMouseDown(e: any){
     mousePosition = getRelativeMousePosition(e);
-    socket.emit('browser-input-mouse-click', mousePosition);
+    if(!isMouseDrag){
+      isMouseDrag = true;
+      socket.emit('browser-mouse-down', mousePosition);
+    }
+  }
+
+  function handleMouseUp(e: any){
+    mousePosition = getRelativeMousePosition(e);
+    isMouseDrag = false;
+    socket.emit('browser-mouse-up', mousePosition);
+  }
+
+  function handleMouseWheel(e: any){
+    socket.emit('browser-mouse-wheel', e.deltaY);
   }
 
   function handleKeyPressEvent(e : any) {
-    console.log('press',e.key);
     socket.emit('browser-keyboard-press', e.key);
   }
 
   function handleKeyUpEvent(e : any) {
-    console.log('up',e.key);
     socket.emit('browser-keyboard-up', e.key);
   }
 
   function handleKeyDownEvent(e : any) {
-    console.log('down',e.key);
     socket.emit('browser-keyboard-down', e.key);
   }
+
+
 
   useLayoutEffect(() => {
     function updateSize() {
       let viewport: any = document.getElementById("viewport") ;
-      console.log({width: viewport.clientWidth, height: viewport.clientHeight});
       socket.emit("browser-viewport",{width: viewport.clientWidth, height: viewport.clientHeight});
     }
     updateSize();
@@ -54,16 +66,23 @@ function RemoteBrowser({ socket }: { socket: any }) {
     document.addEventListener('keydown', handleKeyDownEvent);
     return () => {
       window.removeEventListener('resize', updateSize);
-     // document.removeEventListener('keypress', handleKeyPressEvent);
-    document.removeEventListener('keyup', handleKeyUpEvent);
-    document.removeEventListener('keydown', handleKeyDownEvent);
+      // document.removeEventListener('keypress', handleKeyPressEvent);
+      document.removeEventListener('keyup', handleKeyUpEvent);
+      document.removeEventListener('keydown', handleKeyDownEvent);
     };
   }, []);
 
   return (
-  <div id="viewport" className="h-full w-full" onMouseMove={(e) => {
-    handleMousePosition(e);
-  }} onClick={(e) => {handleMouseClick(e)}}>
+  <div id="viewport" className="h-full w-full"
+    onMouseMove={(e) => {handleMousePosition(e)}}
+    onMouseDown={(e) => {
+      handleMouseDown(e)
+    }}
+    onMouseUp={(e) => {
+      handleMouseUp(e);
+    }}
+    onWheel={(e) => {handleMouseWheel(e)}}
+    onDragStartCapture={(e) => console.log(e)}>
     <img className="w-full h-full" alt="" src={`data:image/png;base64,${imageData}`} draggable={false}/>
   </div>
   );

@@ -8,7 +8,10 @@ class Browser {
     }
 
     async init(height, width, url) {
-        await puppeteer.launch({ ignoreDefaultArgs: ["--hide-scrollbars"] }).then((browser) => {
+        await puppeteer.launch({
+            headless: true,
+            ignoreDefaultArgs: ["--mute-audio", "--hide-scrollbars"]
+        }).then((browser) => {
             this.browser = browser;
             browser.newPage().then((page) => {
                 this.page = page;
@@ -85,9 +88,21 @@ class Browser {
         return this.page.mouse.click(this.mouseX, this.mouseY);
     }
 
+    // Mouse click within headless browser
+    async mouseDown(x, y) {
+        await this.setMousePosition(x, y);
+        return this.page.mouse.down(this.mouseX, this.mouseY);
+    }
+
+    // Mouse click within headless browser
+    async mouseUp(x, y) {
+        await this.setMousePosition(x, y);
+        return this.page.mouse.up(this.mouseX, this.mouseY);
+    }
+
     // Mouse scroll wheel in headless browser
     async mouseWheel(delta) {
-        return await this.page.wheel({ deltaY: delta });
+        return await this.page.mouse.wheel({ deltaY: delta });
     }
 
     // Go to previous page
