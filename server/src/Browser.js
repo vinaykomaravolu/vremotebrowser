@@ -9,6 +9,10 @@ class Browser {
 
     async init(height, width, url) {
         await puppeteer.launch({
+            args: [
+                '--no-sandbox',
+                '--headless',
+            ],
             headless: true,
             ignoreDefaultArgs: ["--mute-audio", "--hide-scrollbars"]
         }).then((browser) => {
@@ -25,8 +29,8 @@ class Browser {
     }
 
     // GEt height and width of headless browser
-    getViewport() {
-        return this.page.viewport();
+    async getViewport() {
+        return await this.page.viewport();
     };
 
     // Set height and width of headless browser
@@ -44,16 +48,13 @@ class Browser {
 
     // Set url of headless browser
     async goTo(url) {
-        return this.page.goto(url).then((data) => {
-            return data.status();
-        }).catch((err) => {
-            return 500;
-        })
-    }
+        await this.getViewport();
+        await this.page.goto(url);
+    };
 
     // Returns buffer data of screenshot as a promise
     async screenshot() {
-        return this.page.screenshot({ type: 'png' });
+        return await this.page.screenshot({ type: 'png' });
     }
 
     // Set the mouse position within headless browser
@@ -107,17 +108,25 @@ class Browser {
 
     // Go to previous page
     async goBack() {
-        return this.page.goBack();
+        return await this.page.goBack().then((data) => {
+            console.log(data);
+        }).catch((err) => {
+            console.log(err)
+        });
     }
 
     // Go to next page
     async goForward() {
-        return this.page.goForward();
+        return await this.page.goForward().then((data) => {
+            console.log(data);
+        }).catch((err) => {
+            console.log(err)
+        });
     }
 
     // Reload page
     async reload() {
-        return this.page.reload();
+        return await this.page.reload();
     }
 
     // Keyboard key press

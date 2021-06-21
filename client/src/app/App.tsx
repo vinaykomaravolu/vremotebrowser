@@ -8,12 +8,13 @@ import './App.global.css';
 
 export default function App() {
   const [socket, setSocket] = useState<any>(socketIOClient("http://localhost:3001/", { transports: ["websocket"] }));
-
   return (
-    <div className="w-screen h-screen flex flex-col flex-nowrap" id="app-root">
+    <div className="w-screen h-screen" id="app-root">
+        <div className="h-full w-full flex flex-col">
         <WindowNav />
         <BrowserMenu socket={socket} />
         <RemoteBrowser socket={socket} />
+        </div>
     </div>
   );
 }

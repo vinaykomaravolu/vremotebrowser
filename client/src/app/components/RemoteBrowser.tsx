@@ -36,10 +36,6 @@ function RemoteBrowser({ socket }: { socket: any }) {
     socket.emit('browser-mouse-wheel', e.deltaY);
   }
 
-  function handleKeyPressEvent(e : any) {
-    socket.emit('browser-keyboard-press', e.key);
-  }
-
   function handleKeyUpEvent(e : any) {
     socket.emit('browser-keyboard-up', e.key);
   }
@@ -48,12 +44,10 @@ function RemoteBrowser({ socket }: { socket: any }) {
     socket.emit('browser-keyboard-down', e.key);
   }
 
-
-
   useLayoutEffect(() => {
     function updateSize() {
       let viewport: any = document.getElementById("viewport") ;
-      socket.emit("browser-viewport",{width: viewport.clientWidth, height: viewport.clientHeight});
+      socket.emit("browser-viewport",{width: window.innerWidth, height: viewport.clientHeight});
     }
     updateSize();
     socket.on("image", (data: string) => {
@@ -73,7 +67,7 @@ function RemoteBrowser({ socket }: { socket: any }) {
   }, []);
 
   return (
-  <div id="viewport" className="h-full w-full"
+  <div id="viewport" className=" h-full w-full overflow-y-auto"
     onMouseMove={(e) => {handleMousePosition(e)}}
     onMouseDown={(e) => {
       handleMouseDown(e)

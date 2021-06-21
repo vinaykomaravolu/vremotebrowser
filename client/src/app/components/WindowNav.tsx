@@ -25,8 +25,7 @@ function WindowNav() {
   }
 
   return (
-    <div className=" bg-gray-400 w-full h-7 pb-2">
-      <div className="flex flex-row-reverse ">
+      <div className="flex flex-row-reverse bg-gray-400 w-full h-7 pb-2">
         <button
           id="closeapp"
           onClick={() => {
@@ -85,7 +84,6 @@ function WindowNav() {
           </svg>
         </button>
       </div>
-    </div>
   );
 }
 

@@ -12,8 +12,10 @@ const browser = new Browser(600, 800, 'https://google.com');
 
 io.on('connection', (socket) => {
     let sendScreenshotData = setInterval(async () => {
-        const imageData = (await browser.screenshot()).toString('base64');
-        io.emit('image', imageData);
+        if (browser && browser.page) {
+            const imageData = (await browser.screenshot()).toString('base64');
+            io.emit('image', imageData);
+        }
     });
 
     socket.on('browser-viewport', async (viewport) => {
@@ -37,11 +39,6 @@ io.on('connection', (socket) => {
         await browser.mouseUp(mousePosition.x, mousePosition.y);
     });
 
-    socket.on('browser-mouse-drag', async (from, to) => {
-        console.log(from, to);
-        await browser.mouseDrag(from, to);
-    });
-
     socket.on('browser-mouse-wheel', async (deltaY) => {
         await browser.mouseWheel(deltaY);
     });
@@ -58,8 +55,8 @@ io.on('connection', (socket) => {
         await browser.reload();
     });
 
-    socket.on('browser-goto', async (url) => {
-        await browser.goTo(url);
+    socket.on('browser-goto', (url) => {
+        browser.goTo(url);
     });
 
     socket.on('browser-geturl', async () => {
