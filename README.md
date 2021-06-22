@@ -36,3 +36,4 @@ Electron client connection to headless chromium located on the server.
 
 * Multiple tabs for the browser
 * allow to create private instance or public instance
+* client local single instance
