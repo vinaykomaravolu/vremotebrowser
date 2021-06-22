@@ -35,6 +35,8 @@ Electron client connection to headless chromium located on the server.
 2. User input from client side goes to server side
 3. All clients connect to the same user
 4. Able to resize
+5. page navigation
+6. Page search **Issues with puppeteer**
 
 ## Features TODO
 
