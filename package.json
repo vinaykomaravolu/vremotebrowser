@@ -8,7 +8,10 @@
     "install:server": "cd server && yarn install",
     "install": "yarn install:client && yarn install:server",
     "start:client": "cd client && yarn start",
-    "start:server": "cd server && yarn start"
+    "start:server": "cd server && yarn start",
+    "client:build:win": "cd client && yarn build && yarn electron-builder --win ",
+    "client:build:mac": "cd client && yarn build && yarn electron-builder  --mac ",
+    "client:build:linux": "cd client && yarn build && yarn electron-builder --linux"
   },
   "dependencies": {}
 }
