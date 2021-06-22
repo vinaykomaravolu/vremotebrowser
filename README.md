@@ -23,6 +23,10 @@ Electron client connection to headless chromium located on the server.
 2. `yarn start:server` in one terminal
 3. `yarn start:client` in another terminal
 
+## Build client
+* Windows : `yarn client:build:linux`
+* Linux : `yarn client:build:Linux`
+* Mac : `yarn client:build:mac`
 
 ## Applicatiion Demo
 
