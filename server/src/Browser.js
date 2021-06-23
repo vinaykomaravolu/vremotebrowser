@@ -28,7 +28,7 @@ class Browser {
         });
     }
 
-    // GEt height and width of headless browser
+    // Get height and width of headless browser
     async getViewport() {
         return await this.page.viewport();
     };
@@ -108,20 +108,12 @@ class Browser {
 
     // Go to previous page
     async goBack() {
-        return await this.page.goBack().then((data) => {
-            console.log(data);
-        }).catch((err) => {
-            console.log(err)
-        });
+        return await this.page.goBack();
     }
 
     // Go to next page
     async goForward() {
-        return await this.page.goForward().then((data) => {
-            console.log(data);
-        }).catch((err) => {
-            console.log(err)
-        });
+        return await this.page.goForward();
     }
 
     // Reload page
